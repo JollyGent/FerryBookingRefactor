@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text;
 
 namespace FerryBooking.Core
 {
     public class ScheduledRoutes
     {
-        private readonly string VERTICAL_WHITE_SPACE = Environment.NewLine + Environment.NewLine;
-        private readonly string NEW_LINE = Environment.NewLine;
-        private const string INDENTATION = "    ";
-
         public ScheduledRoutes(Route route)
         {
             Route = route;
@@ -39,7 +36,8 @@ namespace FerryBooking.Core
             int totalExpectedBaggage = 0;
             int seatsTaken = 0;
 
-            string result = "Journey summary for " + Route.Title;
+            //using StringBuilder instead for faster performance.
+            string result;
 
             foreach (var passenger in Passengers)
             {
@@ -77,45 +75,49 @@ namespace FerryBooking.Core
                 seatsTaken++;
             }
 
-            result += VERTICAL_WHITE_SPACE;
-            
-            result += "Total passengers: " + seatsTaken;
-            result += NEW_LINE;
-            result += INDENTATION + "General sales: " + Passengers.Count(p => p.Type == PassengerType.General);
-            result += NEW_LINE;
-            result += INDENTATION + "Loyalty member sales: " + Passengers.Count(p => p.Type == PassengerType.LoyaltyMember);
-            result += NEW_LINE;
-            result += INDENTATION + "Carrier employee comps: " + Passengers.Count(p => p.Type == PassengerType.CarrierEmployee);
-            
-            result += VERTICAL_WHITE_SPACE;
-            result += "Total expected baggage: " + totalExpectedBaggage;
 
-            result += VERTICAL_WHITE_SPACE;
-
-            result += "Total revenue from route: " + profitFromJourney;
-            result += NEW_LINE;
-            result += "Total costs from route: " + costOfJourney;
-            result += NEW_LINE;
-
-            double profitSurplus = profitFromJourney - costOfJourney;
-
-            result += (profitSurplus > 0 ? "Route generating profit of: " : "Route losing money of: ") + profitSurplus;
-
-            result += VERTICAL_WHITE_SPACE;
-
-            result += "Total loyalty points given away: " + totalLoyaltyPointsAccrued + NEW_LINE;
-            result += "Total loyalty points redeemed: " + totalLoyaltyPointsRedeemed + NEW_LINE;
-
-            result += VERTICAL_WHITE_SPACE;
-
-            if (profitSurplus > 0 && 
-                seatsTaken < Vessel.NumberOfSeats && 
-                seatsTaken / (double)Vessel.NumberOfSeats > Route.MinimumTakeOffPercentage)
-                result += "THIS ROUTE MAY PROCEED";
-            else
-                result += "ROUTE MAY NOT PROCEED";
-
+            //separating the summary building into a different function.
+            //This improves readability, and if I want to add more to summary I can do so in the function.
+            result = BuildSummary(costOfJourney, profitFromJourney, totalLoyaltyPointsAccrued, totalLoyaltyPointsRedeemed, totalExpectedBaggage, seatsTaken);
             return result;
         }
+
+
+		
+		public string BuildSummary(double costOfJourney, double profitFromJourney, int totalLoyaltyPointsAccrued, 
+            int totalLoyaltyPointsReedeemed, int totalExpectedBaggage, int seatsTaken)
+        {
+			//simple \n and \t should do for new lines and indentations. Reduces unnecessary lines of code.
+			StringBuilder summaryBuilder = new StringBuilder();
+
+            summaryBuilder.AppendLine("Journey summary for " + Route.Title);
+			summaryBuilder.AppendLine("Total passengers: " + seatsTaken);
+			summaryBuilder.AppendLine("\tGeneral sales: " + Passengers.Count(p => p.Type == PassengerType.General));
+			summaryBuilder.AppendLine("\tLoyalty member sales: " + Passengers.Count(p => p.Type == PassengerType.LoyaltyMember));
+			summaryBuilder.AppendLine("\tCarrier employee comps: " + Passengers.Count(p => p.Type == PassengerType.CarrierEmployee) + "\n");
+
+			summaryBuilder.AppendLine("Total expected baggage: " + totalExpectedBaggage + "\n");
+
+			summaryBuilder.AppendLine("Total revenue from route: " + profitFromJourney);
+			summaryBuilder.AppendLine("Total costs from route: " + costOfJourney);
+
+			double profitSurplus = profitFromJourney - costOfJourney;
+
+			summaryBuilder.AppendLine((profitSurplus > 0 ? "Route generating profit of: " : "Route losing money of: ") + profitSurplus + "\n");
+
+			summaryBuilder.AppendLine("Total loyalty points given away: " + totalLoyaltyPointsAccrued);
+			summaryBuilder.AppendLine("Total loyalty points redeemed: " + totalLoyaltyPointsReedeemed + "\n");
+
+			if (profitSurplus > 0 &&
+				seatsTaken < Vessel.NumberOfSeats &&
+				seatsTaken / (double)Vessel.NumberOfSeats > Route.MinimumTakeOffPercentage)
+				summaryBuilder.AppendLine("THIS ROUTE MAY PROCEED");
+			else
+				summaryBuilder.AppendLine("ROUTE MAY NOT PROCEED");
+
+
+			return summaryBuilder.ToString();
+
+		}
     }
 }

@@ -1,0 +1,10 @@
+C:\Users\pchha\Desktop\FerryBooking\FerryBookingConsole\bin\Debug\FlightBooking.Console.exe.config
+C:\Users\pchha\Desktop\FerryBooking\FerryBookingConsole\bin\Debug\FlightBooking.Console.exe
+C:\Users\pchha\Desktop\FerryBooking\FerryBookingConsole\bin\Debug\FlightBooking.Console.pdb
+C:\Users\pchha\Desktop\FerryBooking\FerryBookingConsole\bin\Debug\FlightBooking.Core.dll
+C:\Users\pchha\Desktop\FerryBooking\FerryBookingConsole\bin\Debug\FlightBooking.Core.pdb
+C:\Users\pchha\Desktop\FerryBooking\FerryBookingConsole\obj\Debug\FerryBooking.Console.csproj.AssemblyReference.cache
+C:\Users\pchha\Desktop\FerryBooking\FerryBookingConsole\obj\Debug\FerryBooking.Console.csproj.CoreCompileInputs.cache
+C:\Users\pchha\Desktop\FerryBooking\FerryBookingConsole\obj\Debug\FerryBooking.Console.csproj.CopyComplete
+C:\Users\pchha\Desktop\FerryBooking\FerryBookingConsole\obj\Debug\FlightBooking.Console.exe
+C:\Users\pchha\Desktop\FerryBooking\FerryBookingConsole\obj\Debug\FlightBooking.Console.pdb
