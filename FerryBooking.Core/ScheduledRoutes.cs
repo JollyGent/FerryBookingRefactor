@@ -84,8 +84,7 @@ namespace FerryBooking.Core
 
 
 		
-		public string BuildSummary(double costOfJourney, double profitFromJourney, int totalLoyaltyPointsAccrued, 
-            int totalLoyaltyPointsReedeemed, int totalExpectedBaggage, int seatsTaken)
+		public string BuildSummary(double costOfJourney, double profitFromJourney, int totalLoyaltyPointsAccrued, int totalLoyaltyPointsReedeemed, int totalExpectedBaggage, int seatsTaken)
         {
 			//simple \n and \t should do for new lines and indentations. Reduces unnecessary lines of code.
 			StringBuilder summaryBuilder = new StringBuilder();
